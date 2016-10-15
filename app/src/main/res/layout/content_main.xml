@@ -12,22 +12,25 @@
     tools:context="cd.ex.leovs09.experiment_content_discavery.MainActivity"
     tools:showIn="@layout/activity_main">
 
-    <ToggleButton
-        android:id="@+id/enableMediaController"
+    <!--<ToggleButton-->
+        <!--android:id="@+id/enableMediaController"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:checked="true"-->
+        <!--android:textOff="Enable MediaController"-->
+        <!--android:textOn="Disable MediaController"-->
+        <!--android:padding="3sp"-->
+        <!--android:textSize="15sp"-->
+        <!--android:textAlignment="center" />-->
+
+    <!--<VideoView-->
+        <!--android:id="@+id/myvideoview"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_below="@+id/enableMediaController" />-->
+
+    <Button android:id="@+id/btn_img_drag"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:checked="true"
-        android:textOff="Enable MediaController"
-        android:textOn="Disable MediaController"
-        android:padding="3sp"
-        android:textSize="15sp"
-        android:textAlignment="center" />
-
-    <VideoView
-        android:id="@+id/myvideoview"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/enableMediaController" />
-
-
+        android:text="image drag and drop" />
 </RelativeLayout>

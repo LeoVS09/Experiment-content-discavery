@@ -1,5 +1,6 @@
 package cd.ex.leovs09.experiment_content_discavery;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -11,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.MediaController;
 import android.widget.Toast;
@@ -55,11 +57,11 @@ public class MainActivity extends AppCompatActivity {
         });
         fab.hide();
 //        enableMediaController = (ToggleButton) findViewById(R.id.enableMediaController);
-        myVideoView = (VideoView) findViewById(R.id.myvideoview);
+//        myVideoView = (VideoView) findViewById(R.id.myvideoview);
 //        myVideoView.setVideoPath(getViewSrc());
-        myVideoView.setVideoURI(Uri.parse(""));
-        myVideoView.requestFocus();
-        myVideoView.start();
+//        myVideoView.setVideoURI(Uri.parse(""));
+//        myVideoView.requestFocus();
+//        myVideoView.start();
 
 //        setMediaController();
 
@@ -69,6 +71,13 @@ public class MainActivity extends AppCompatActivity {
 //                setMediaController();
 //            }
 //        });
+        Button goToSwipe = (Button) findViewById(R.id.btn_img_drag);
+        goToSwipe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(v.getContext(),SwipeActivity.class));
+            }
+        });
     }
 
     private void setMediaController(){
