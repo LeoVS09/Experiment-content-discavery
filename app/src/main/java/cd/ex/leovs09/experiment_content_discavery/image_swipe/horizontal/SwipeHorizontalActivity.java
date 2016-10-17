@@ -1,4 +1,4 @@
-package cd.ex.leovs09.experiment_content_discavery;
+package cd.ex.leovs09.experiment_content_discavery.image_swipe.horizontal;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -8,12 +8,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
-import android.view.DragEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.MenuItem;
 import android.support.v4.app.NavUtils;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -22,35 +20,31 @@ import android.widget.Toast;
 
 import java.util.concurrent.TimeUnit;
 
+import cd.ex.leovs09.experiment_content_discavery.MainActivity;
 import cd.ex.leovs09.experiment_content_discavery.R;
 
 
-
-public class SwipeActivity extends AppCompatActivity {
+public class SwipeHorizontalActivity extends AppCompatActivity {
     View dragView;
-    public static String BROADCAST_MOVE = "broadcastMove";
-    public static String STATUS_MOVE = "statusMove";
-    public static String STATUS_UP = "statusUp";
     private boolean swiping = false;
     private float startX;
     private float startY;
-    private int displayHeight;
+    private int displayWidth;
     private int currentImageIndex = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_swipe);
-        dragView = findViewById(R.id.imageView);
 
-    };
+        setContentView(R.layout.activity_swipe_horizontal_image);
+        dragView = findViewById(R.id.alboms);
+    }
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        displayHeight = ((WindowManager)this.getSystemService(Context.WINDOW_SERVICE))
-                .getDefaultDisplay().getHeight();
-
+        displayWidth = ((WindowManager)this.getSystemService(Context.WINDOW_SERVICE))
+                .getDefaultDisplay().getWidth();
     }
 
     @Override
@@ -69,16 +63,12 @@ public class SwipeActivity extends AppCompatActivity {
                 break;
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:
-                Animation animation = AnimationUtils.loadAnimation(this,R.anim.leaving);
                 if(swiping){
-                    Log.i("dispatchEvent","y: " + y);
-                    if(y < displayHeight/2){
+                    if(y < displayWidth/2){
                         Toast.makeText(this,"dislike",Toast.LENGTH_SHORT).show();
-                        dragView.startAnimation(animation);
                         new ChangeImage().execute((ImageView)dragView);
-                    }else if (y > (displayHeight)/2){
+                    }else if (y > (displayWidth)/2){
                         Toast.makeText(this,"like",Toast.LENGTH_SHORT).show();
-                        dragView.startAnimation(animation);
                         new ChangeImage().execute((ImageView)dragView);
                     }else{
                         //Not changed
@@ -90,7 +80,7 @@ public class SwipeActivity extends AppCompatActivity {
     }
 
 
-    private class ChangeImage extends AsyncTask<ImageView,Void,Void>{
+    private class ChangeImage extends AsyncTask<ImageView,Void,Void> {
         ImageView view;
         @Override
         protected Void doInBackground(ImageView... views){
@@ -112,5 +102,4 @@ public class SwipeActivity extends AppCompatActivity {
         }
 
     }
-
 }

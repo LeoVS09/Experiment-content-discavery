@@ -29,8 +29,14 @@
         <!--android:layout_height="wrap_content"-->
         <!--android:layout_below="@+id/enableMediaController" />-->
 
-    <Button android:id="@+id/btn_img_drag"
+    <Button android:id="@+id/btn_img_vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="image drag and drop" />
+        android:text="image vertical swipe" />
+    <Button android:id="@+id/btn_img_horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="image horizontal swipe"
+        android:layout_below="@+id/btn_img_vertical"
+        android:layout_marginTop="10sp" />
 </RelativeLayout>

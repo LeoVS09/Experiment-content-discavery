@@ -21,7 +21,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".SwipeActivity"
+            android:name=".image_swipe.vertical.SwipeVerticalActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_swipe"
             android:parentActivityName=".MainActivity"
@@ -35,6 +35,16 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".image_swipe.horizontal.SwipeHorizontalActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_swipe_horizontal"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/FullscreenTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="cd.ex.leovs09.experiment_content_discavery.MainActivity" />
         </activity>
     </application>
 

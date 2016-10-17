@@ -1,32 +1,30 @@
-package cd.ex.leovs09.experiment_content_discavery;
+package cd.ex.leovs09.experiment_content_discavery.image_swipe;
 
-import android.app.Service;
-import android.app.usage.UsageEvents;
 import android.content.Context;
-import android.content.Intent;
 import android.support.v4.view.MotionEventCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.ViewDragHelper;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
-import java.util.EventObject;
+import cd.ex.leovs09.experiment_content_discavery.R;
 
 /**
- * Created by LeoVS09 on 15.10.2016.
+ * Created by LeoVS09 on 17.10.2016.
  */
 public class SwipeLayout extends RelativeLayout {
-    private ViewDragHelper dragHelper;
-    private View dragView;
-    private int displayHeight;
-    private int startX;
-    private int startY;
+    protected ViewDragHelper dragHelper;
+    protected View dragView;
+    protected int displayHeight;
+    protected int displayWidth;
+    protected int startX;
+    protected int startY;
+    protected int verticalDragRange;
+    protected int horizontalDragRange;
+    protected int viewId;
     public SwipeLayout(Context context){
         this(context,null);
     }
@@ -35,7 +33,7 @@ public class SwipeLayout extends RelativeLayout {
         this(context,attributeSet,0);
     }
 
-    public SwipeLayout(Context context,AttributeSet attributeSet,int defStyle){
+    public SwipeLayout(Context context, AttributeSet attributeSet, int defStyle){
         super(context,attributeSet,defStyle);
         dragHelper = ViewDragHelper.create(this,1.0f,new SwipeHelperCallback());
     }
@@ -43,16 +41,18 @@ public class SwipeLayout extends RelativeLayout {
     @Override
     protected void onFinishInflate(){
         super.onFinishInflate();
-        dragView = findViewById(R.id.imageView);
+        dragView = findViewById(viewId);
         displayHeight = ((WindowManager)this.getContext().getSystemService(Context.WINDOW_SERVICE))
-                                        .getDefaultDisplay().getHeight();
+                .getDefaultDisplay().getHeight();
+        displayWidth = ((WindowManager)this.getContext().getSystemService(Context.WINDOW_SERVICE))
+                .getDefaultDisplay().getWidth();
         startX = dragView.getPaddingLeft();
         startY = dragView.getPaddingTop();
+
     }
     @Override
     public boolean onInterceptTouchEvent(MotionEvent event) {
         int action = MotionEventCompat.getActionMasked(event);
-
         if(action == MotionEvent.ACTION_CANCEL || action == MotionEvent.ACTION_UP){
             dragHelper.cancel();
             return false;
@@ -63,17 +63,34 @@ public class SwipeLayout extends RelativeLayout {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-//        Toast.makeText(getContext(),event.toString(),Toast.LENGTH_LONG).show();
-
         dragHelper.processTouchEvent(event);
         return true;
     }
+    /*
+        extend realised method for set end of move
+     */
+    protected int[] settleReleasedView(View releasedChild, float xvel, float yvel) {
 
-    private class SwipeHelperCallback extends ViewDragHelper.Callback {
+        int[] result = {0,0};
+        return result;
+    }
+    /*
+        extend vertical method for set vertical on move
+     */
+    protected int newVertical(View child, int top, int dy) {
+        return 0;
+    }
+    /*
+        extend vertical method for set horizontal on move
+     */
+    protected int newHorizontal(View child, int left, int dx){
+        return 0;
+    }
+    protected class SwipeHelperCallback extends ViewDragHelper.Callback {
 
         @Override
         public boolean tryCaptureView(View child, int pointerId) {
-            return child.getId() == R.id.imageView;
+            return child.getId() == viewId;
         }
 
         @Override
@@ -84,34 +101,25 @@ public class SwipeLayout extends RelativeLayout {
         @Override
         public void onViewReleased(View releasedChild, float xvel, float yvel) {
             super.onViewReleased(releasedChild,xvel,yvel);
-
-            int newY = startY;
-            if(yvel < displayHeight/3)
-                newY = Math.max((int)yvel,-displayHeight/4);
-            else if(yvel > (2*displayHeight)/3)
-                newY = Math.min((int)yvel,(3*displayHeight)/4);
-
-            dragHelper.settleCapturedViewAt(startX, newY);
+            int [] res = settleReleasedView(releasedChild,xvel,yvel);
+            dragHelper.settleCapturedViewAt(res[0], res[1]);
             requestLayout();
         }
 
-
+        @Override
+        public int getViewVerticalDragRange(View child) {return verticalDragRange;}
 
         @Override
-        public int getViewVerticalDragRange(View child) {return -displayHeight/4;}
+        public int getViewHorizontalDragRange(View child) {return horizontalDragRange;}
 
 
         @Override
         public int clampViewPositionVertical(View child, int top, int dy) {
-            final int topBound =  -getHeight() + 2*(displayHeight - getHeight());
-            final int bottomBound = -topBound;
-            final int newTop = Math.min(Math.max(top, topBound), bottomBound);
-            return newTop;
+            return newVertical(child,top,dy);
         }
         @Override
         public int clampViewPositionHorizontal(View child, int left, int dx){
-            startX = dragView.getLeft();
-            return startX;
+            return newHorizontal(child,left,dx);
         }
     }
     @Override
@@ -121,5 +129,4 @@ public class SwipeLayout extends RelativeLayout {
             ViewCompat.postInvalidateOnAnimation(this);
         }
     }
-
 }

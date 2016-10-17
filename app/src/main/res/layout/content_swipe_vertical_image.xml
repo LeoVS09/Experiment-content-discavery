@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
-<cd.ex.leovs09.experiment_content_discavery.SwipeLayout android:layout_width="match_parent"
+<cd.ex.leovs09.experiment_content_discavery.image_swipe.vertical.SwipeVerticalLayout
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="cd.ex.leovs09.experiment_content_discavery.SwipeActivity"
-    tools:showIn="@layout/activity_swipe"
+    tools:context=".image_swipe.vertical.SwipeVerticalActivity"
+    tools:showIn="@layout/activity_swipe_vertical_image"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
         <ImageView
@@ -35,4 +36,4 @@
             android:src="@drawable/alai_oli"
             android:clickable="true" />
 
-</cd.ex.leovs09.experiment_content_discavery.SwipeLayout>
+</cd.ex.leovs09.experiment_content_discavery.image_swipe.vertical.SwipeVerticalLayout>

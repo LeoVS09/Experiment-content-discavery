@@ -1,39 +1,25 @@
 package cd.ex.leovs09.experiment_content_discavery;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.MediaController;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 import android.widget.VideoView;
 
-import org.w3c.dom.Attr;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-
 import java.io.File;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.HashMap;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
+import cd.ex.leovs09.experiment_content_discavery.image_swipe.horizontal.SwipeHorizontalActivity;
+import cd.ex.leovs09.experiment_content_discavery.image_swipe.vertical.SwipeVerticalActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -52,15 +38,7 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-        fab.hide();
+
 //        enableMediaController = (ToggleButton) findViewById(R.id.enableMediaController);
 //        myVideoView = (VideoView) findViewById(R.id.myvideoview);
 //        myVideoView.setVideoPath(getViewSrc());
@@ -76,11 +54,19 @@ public class MainActivity extends AppCompatActivity {
 //                setMediaController();
 //            }
 //        });
-        Button goToSwipe = (Button) findViewById(R.id.btn_img_drag);
+        Button goToSwipe = (Button) findViewById(R.id.btn_img_vertical);
         goToSwipe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(v.getContext(),SwipeActivity.class));
+                startActivity(new Intent(v.getContext(),SwipeVerticalActivity.class));
+            }
+        });
+
+        goToSwipe = (Button) findViewById(R.id.btn_img_horizontal);
+        goToSwipe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(v.getContext(),SwipeHorizontalActivity.class));
             }
         });
     }
