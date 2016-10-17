@@ -41,9 +41,9 @@ public class MainActivity extends AppCompatActivity {
     VideoView myVideoView;
     public static int[] imagesId = {
             R.drawable.ac_dc,
-            R.drawable.alai_oli,
             R.drawable.bloodhound_gang,
-            R.drawable.imagion_dragons
+            R.drawable.imagion_dragons,
+            R.drawable.alai_oli
     };
     @Override
     protected void onCreate(Bundle savedInstanceState) {

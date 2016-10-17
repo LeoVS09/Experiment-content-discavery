@@ -72,12 +72,12 @@ public class SwipeActivity extends AppCompatActivity {
                 Animation animation = AnimationUtils.loadAnimation(this,R.anim.leaving);
                 if(swiping){
                     Log.i("dispatchEvent","y: " + y);
-                    if(y < displayHeight/3){
-                        Toast.makeText(this,"like",Toast.LENGTH_SHORT).show();
+                    if(y < displayHeight/2){
+                        Toast.makeText(this,"dislike",Toast.LENGTH_SHORT).show();
                         dragView.startAnimation(animation);
                         new ChangeImage().execute((ImageView)dragView);
-                    }else if (y > (displayHeight*2)/3){
-                        Toast.makeText(this,"dislike",Toast.LENGTH_SHORT).show();
+                    }else if (y > (displayHeight)/2){
+                        Toast.makeText(this,"like",Toast.LENGTH_SHORT).show();
                         dragView.startAnimation(animation);
                         new ChangeImage().execute((ImageView)dragView);
                     }else{
@@ -106,8 +106,9 @@ public class SwipeActivity extends AppCompatActivity {
         protected void onPostExecute(Void result){
             super.onPostExecute(result);
             view.setImageResource(MainActivity.imagesId[currentImageIndex]);
-            currentImageIndex = (currentImageIndex == MainActivity.imagesId.length)?
-                                    0 : currentImageIndex + 1;
+            currentImageIndex = (currentImageIndex == MainActivity.imagesId.length-1)?
+                    0 : currentImageIndex + 1;
+
         }
 
     }
