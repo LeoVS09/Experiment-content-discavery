@@ -39,7 +39,12 @@ public class MainActivity extends AppCompatActivity {
 
     ToggleButton enableMediaController;
     VideoView myVideoView;
-
+    public static int[] imagesId = {
+            R.drawable.ac_dc,
+            R.drawable.alai_oli,
+            R.drawable.bloodhound_gang,
+            R.drawable.imagion_dragons
+    };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
