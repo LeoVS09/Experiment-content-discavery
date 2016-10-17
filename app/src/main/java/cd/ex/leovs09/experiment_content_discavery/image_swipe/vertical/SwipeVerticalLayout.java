@@ -1,17 +1,11 @@
 package cd.ex.leovs09.experiment_content_discavery.image_swipe.vertical;
 
 import android.content.Context;
-import android.support.v4.view.MotionEventCompat;
-import android.support.v4.view.ViewCompat;
-import android.support.v4.widget.ViewDragHelper;
 import android.util.AttributeSet;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.WindowManager;
-import android.widget.RelativeLayout;
 
 import cd.ex.leovs09.experiment_content_discavery.R;
-import cd.ex.leovs09.experiment_content_discavery.image_swipe.SwipeLayout;
+import cd.ex.leovs09.experiment_content_discavery.SwipeLayout;
 
 /**
  * Created by LeoVS09 on 15.10.2016.

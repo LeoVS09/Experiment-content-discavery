@@ -5,7 +5,7 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import cd.ex.leovs09.experiment_content_discavery.R;
-import cd.ex.leovs09.experiment_content_discavery.image_swipe.SwipeLayout;
+import cd.ex.leovs09.experiment_content_discavery.SwipeLayout;
 
 /**
  * Created by LeoVS09 on 17.10.2016.

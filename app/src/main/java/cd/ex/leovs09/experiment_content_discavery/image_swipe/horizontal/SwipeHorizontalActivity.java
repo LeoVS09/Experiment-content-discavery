@@ -64,10 +64,10 @@ public class SwipeHorizontalActivity extends AppCompatActivity {
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:
                 if(swiping){
-                    if(y < displayWidth/2){
+                    if(x < displayWidth/2){
                         Toast.makeText(this,"dislike",Toast.LENGTH_SHORT).show();
                         new ChangeImage().execute((ImageView)dragView);
-                    }else if (y > (displayWidth)/2){
+                    }else if (x > (displayWidth)/2){
                         Toast.makeText(this,"like",Toast.LENGTH_SHORT).show();
                         new ChangeImage().execute((ImageView)dragView);
                     }else{
