@@ -25,6 +25,7 @@ import java.io.File;
 
 import cd.ex.leovs09.experiment_content_discavery.image_swipe.horizontal.SwipeHorizontalActivity;
 import cd.ex.leovs09.experiment_content_discavery.image_swipe.vertical.SwipeVerticalActivity;
+import cd.ex.leovs09.experiment_content_discavery.youtube_fragment.YoutubeActivityWithFragment;
 import cd.ex.leovs09.experiment_content_discavery.youtube_swipe.YoutubeActivity;
 
 public class MainActivity extends AppCompatActivity {
@@ -42,23 +43,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-
-//        enableMediaController = (ToggleButton) findViewById(R.id.enableMediaController);
-//        myVideoView = (VideoView) findViewById(R.id.myvideoview);
-//        myVideoView.setVideoPath(getViewSrc());
-//        myVideoView.setVideoURI(Uri.parse(""));
-//        myVideoView.requestFocus();
-//        myVideoView.start();
-
-//        setMediaController();
-
-//        enableMediaController.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//                setMediaController();
-//            }
-//        });
 
         Button goToSwipe = (Button) findViewById(R.id.btn_img_vertical);
         goToSwipe.setOnClickListener(new View.OnClickListener() {
@@ -81,6 +65,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(v.getContext(),YoutubeActivity.class));
+            }
+        });
+
+        goToSwipe = (Button) findViewById(R.id.btn_youtube_fragment);
+        goToSwipe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(v.getContext(),YoutubeActivityWithFragment.class));
             }
         });
     }

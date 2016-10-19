@@ -1,6 +1,7 @@
 package cd.ex.leovs09.experiment_content_discavery.image_swipe.horizontal;
 
 import android.content.Context;
+import android.support.v4.widget.ViewDragHelper;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -24,6 +25,7 @@ public class SwipeHorizontalLayout extends SwipeLayout {
         viewId = R.id.alboms;
         verticalDragRange = 0;
         horizontalDragRange = -displayWidth;
+        dragHelper.setEdgeTrackingEnabled(ViewDragHelper.DIRECTION_HORIZONTAL);
     }
     @Override
     protected int[] settleReleasedView(View releasedChild, float xvel, float yvel) {

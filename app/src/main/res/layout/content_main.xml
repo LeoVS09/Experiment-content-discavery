@@ -45,4 +45,10 @@
         android:text="video horizontal swipe"
         android:layout_below="@+id/btn_img_horizontal"
         android:layout_marginTop="10sp" />
+    <Button android:id="@+id/btn_youtube_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="video on fragment"
+        android:layout_below="@+id/btn_youtube_vertical"
+        android:layout_marginTop="10sp" />
 </RelativeLayout>

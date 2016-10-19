@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="cd.ex.leovs09.experiment_content_discavery.MainActivity">
+    tools:context=".youtube_fragment.YoutubeActivityWithFragment">
 
 
-    <include layout="@layout/content_main" />
+
+    <include layout="@layout/content_youtube_with_fragment" />
+
+
 
 </android.support.design.widget.CoordinatorLayout>

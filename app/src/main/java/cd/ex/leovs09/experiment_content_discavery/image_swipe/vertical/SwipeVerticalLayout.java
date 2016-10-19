@@ -1,6 +1,7 @@
 package cd.ex.leovs09.experiment_content_discavery.image_swipe.vertical;
 
 import android.content.Context;
+import android.support.v4.widget.ViewDragHelper;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -25,6 +26,8 @@ public class SwipeVerticalLayout extends SwipeLayout {
         viewId = R.id.imageView;
         horizontalDragRange = 0;
         verticalDragRange = -displayHeight/4;
+        dragHelper.setEdgeTrackingEnabled(ViewDragHelper.DIRECTION_VERTICAL);
+
     }
     @Override
     protected int[] settleReleasedView(View releasedChild, float xvel, float yvel) {

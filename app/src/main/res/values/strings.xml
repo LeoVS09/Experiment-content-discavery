@@ -8,5 +8,6 @@
 
     <string name="title_activity_swipe_horizontal">SwipeHorizontalActivity</string>
     <string name="title_activity_youtube">YoutubeActivity</string>
-
+    <string name="title_activity_youtube_with_fragment">YoutubeWithFragment</string>
+    <string name="error_player">There was an error initializing the YouTubePlayer (%1$s)</string>
 </resources>
