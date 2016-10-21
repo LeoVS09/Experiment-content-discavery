@@ -1,18 +1,21 @@
-package cd.ex.leovs09.experiment_content_discavery.youtube_fragment;
+package cd.ex.leovs09.experiment_content_discavery.youtube_swipe.vertical;
 
-import android.app.FragmentTransaction;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Toast;
 
 import com.google.android.youtube.player.YouTubePlayer;
-import com.google.android.youtube.player.YouTubePlayerFragment;
 import com.google.android.youtube.player.YouTubePlayerView;
 
 import java.util.concurrent.TimeUnit;
@@ -20,9 +23,10 @@ import java.util.concurrent.TimeUnit;
 import cd.ex.leovs09.experiment_content_discavery.R;
 import cd.ex.leovs09.experiment_content_discavery.YouTubeFailureRecoveryActivity;
 
-public class YoutubeActivityWithFragment extends YouTubeFailureRecoveryActivity {
-    private int displayWidth;
-    private YoutubeActivityWithFragment self = this;
+public class SwipeYouTubeVerticalActivity extends YouTubeFailureRecoveryActivity {
+    private int viewTop;
+    private int displayHeight;
+    private SwipeYouTubeVerticalActivity self = this;
     private YouTubePlayer player;
     private String[] videoUrls = {
             "nCgQDjiotG0",
@@ -35,7 +39,7 @@ public class YoutubeActivityWithFragment extends YouTubeFailureRecoveryActivity 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_youtube_with_fragment);
+        setContentView(R.layout.activity_swipe_vertical_youtube);
     }
 
     @Override
@@ -43,8 +47,9 @@ public class YoutubeActivityWithFragment extends YouTubeFailureRecoveryActivity 
         super.onPostCreate(savedInstanceState);
         youTubeView = (YouTubePlayerView) findViewById(R.id.youtube_view);
         youTubeView.initialize(YOUTUBE_KEY, this);
-        displayWidth = ((WindowManager)this.getSystemService(Context.WINDOW_SERVICE))
-                .getDefaultDisplay().getWidth();
+        viewTop =  youTubeView.getTop();
+        displayHeight = ((WindowManager)this.getSystemService(Context.WINDOW_SERVICE))
+                .getDefaultDisplay().getHeight();
 
     }
 
@@ -77,11 +82,14 @@ public class YoutubeActivityWithFragment extends YouTubeFailureRecoveryActivity 
                 break;
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:
-                if(x < displayWidth/2){
+                Animation animation = AnimationUtils.loadAnimation(this,R.anim.leaving);
+                if(y < displayHeight/2){
                     Toast.makeText(this,"dislike",Toast.LENGTH_SHORT).show();
+                    youTubeView.startAnimation(animation);
                     new ChangeVideo().execute(youTubeView);
-                }else if (x > (displayWidth)/2){
+                }else if (y > (displayHeight)/2){
                     Toast.makeText(this,"like",Toast.LENGTH_SHORT).show();
+                    youTubeView.startAnimation(animation);
                     new ChangeVideo().execute(youTubeView);
                 }else{
                     //Not changed
@@ -115,11 +123,12 @@ public class YoutubeActivityWithFragment extends YouTubeFailureRecoveryActivity 
         @Override
         protected void onPostExecute(Void result){
             super.onPostExecute(result);
-            youTubeView.setLeft(0);
+            youTubeView.setTop(viewTop);
             player.loadVideo(videoUrls[indexVideo]);
             player.play();
             indexVideo = (indexVideo < videoUrls.length - 1) ? indexVideo + 1 : 0;
         }
 
     }
+
 }

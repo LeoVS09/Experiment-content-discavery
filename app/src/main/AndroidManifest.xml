@@ -48,8 +48,8 @@
                 android:value="cd.ex.leovs09.experiment_content_discavery.MainActivity" />
         </activity>
         <activity
-            android:name=".youtube_swipe.YoutubeActivity"
-            android:label="@string/title_activity_youtube"
+            android:name=".youtube_swipe.horizontal.SwipeYouTubeHorizontalActivity"
+            android:label="@string/title_activity_youtube_with_fragment"
             android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
@@ -57,8 +57,8 @@
                 android:value="cd.ex.leovs09.experiment_content_discavery.MainActivity" />
         </activity>
         <activity
-            android:name=".youtube_fragment.YoutubeActivityWithFragment"
-            android:label="@string/title_activity_youtube_with_fragment"
+            android:name=".youtube_swipe.vertical.SwipeYouTubeVerticalActivity"
+            android:label="@string/title_activity_swipe_you_tube_vertical"
             android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data

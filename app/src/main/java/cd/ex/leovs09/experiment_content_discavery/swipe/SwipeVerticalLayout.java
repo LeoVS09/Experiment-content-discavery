@@ -1,4 +1,4 @@
-package cd.ex.leovs09.experiment_content_discavery.image_swipe.vertical;
+package cd.ex.leovs09.experiment_content_discavery.swipe;
 
 import android.content.Context;
 import android.support.v4.widget.ViewDragHelper;
@@ -6,7 +6,6 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import cd.ex.leovs09.experiment_content_discavery.R;
-import cd.ex.leovs09.experiment_content_discavery.SwipeLayout;
 
 /**
  * Created by LeoVS09 on 15.10.2016.
@@ -23,7 +22,6 @@ public class SwipeVerticalLayout extends SwipeLayout {
 
     public SwipeVerticalLayout(Context context, AttributeSet attributeSet, int defStyle){
         super(context,attributeSet,defStyle);
-        viewId = R.id.imageView;
         horizontalDragRange = 0;
         verticalDragRange = -displayHeight/4;
         dragHelper.setEdgeTrackingEnabled(ViewDragHelper.DIRECTION_VERTICAL);

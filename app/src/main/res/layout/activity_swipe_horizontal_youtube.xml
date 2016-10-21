@@ -5,11 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".youtube_fragment.YoutubeActivityWithFragment">
+    tools:context=".youtube_swipe.horizontal.SwipeYouTubeHorizontalActivity">
 
 
 
-    <include layout="@layout/content_youtube_with_fragment" />
+    <include layout="@layout/content_swipe_horizontal_youtube" />
 
 
 

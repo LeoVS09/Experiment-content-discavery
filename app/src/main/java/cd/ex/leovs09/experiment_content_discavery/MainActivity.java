@@ -3,11 +3,8 @@ package cd.ex.leovs09.experiment_content_discavery;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,16 +14,12 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 import android.widget.VideoView;
 
-import com.google.android.youtube.player.YouTubeInitializationResult;
-import com.google.android.youtube.player.YouTubePlayer;
-import com.google.android.youtube.player.YouTubePlayerView;
-
 import java.io.File;
 
 import cd.ex.leovs09.experiment_content_discavery.image_swipe.horizontal.SwipeHorizontalActivity;
 import cd.ex.leovs09.experiment_content_discavery.image_swipe.vertical.SwipeVerticalActivity;
-import cd.ex.leovs09.experiment_content_discavery.youtube_fragment.YoutubeActivityWithFragment;
-import cd.ex.leovs09.experiment_content_discavery.youtube_swipe.YoutubeActivity;
+import cd.ex.leovs09.experiment_content_discavery.youtube_swipe.horizontal.SwipeYouTubeHorizontalActivity;
+import cd.ex.leovs09.experiment_content_discavery.youtube_swipe.vertical.SwipeYouTubeVerticalActivity;
 
 public class MainActivity extends AppCompatActivity {
     ToggleButton enableMediaController;
@@ -64,15 +57,15 @@ public class MainActivity extends AppCompatActivity {
         goToSwipe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(v.getContext(),YoutubeActivity.class));
+                startActivity(new Intent(v.getContext(),SwipeYouTubeVerticalActivity.class));
             }
         });
 
-        goToSwipe = (Button) findViewById(R.id.btn_youtube_fragment);
+        goToSwipe = (Button) findViewById(R.id.btn_youtube_horizontal);
         goToSwipe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(v.getContext(),YoutubeActivityWithFragment.class));
+                startActivity(new Intent(v.getContext(),SwipeYouTubeHorizontalActivity.class));
             }
         });
     }

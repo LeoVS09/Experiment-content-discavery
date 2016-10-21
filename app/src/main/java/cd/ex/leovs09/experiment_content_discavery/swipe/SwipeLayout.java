@@ -1,4 +1,4 @@
-package cd.ex.leovs09.experiment_content_discavery;
+package cd.ex.leovs09.experiment_content_discavery.swipe;
 
 import android.content.Context;
 import android.support.v4.view.MotionEventCompat;

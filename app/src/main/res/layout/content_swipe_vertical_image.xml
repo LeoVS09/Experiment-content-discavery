@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
-<cd.ex.leovs09.experiment_content_discavery.image_swipe.vertical.SwipeVerticalLayout
+<cd.ex.leovs09.experiment_content_discavery.image_swipe.vertical.SwipeImageVerticalLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
@@ -36,4 +36,4 @@
             android:src="@drawable/alai_oli"
             android:clickable="true" />
 
-</cd.ex.leovs09.experiment_content_discavery.image_swipe.vertical.SwipeVerticalLayout>
+</cd.ex.leovs09.experiment_content_discavery.image_swipe.vertical.SwipeImageVerticalLayout>
