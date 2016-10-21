@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Toast;
 
@@ -29,20 +30,22 @@ public class YoutubeActivityWithFragment extends YouTubeFailureRecoveryActivity 
             "Q0oIoR9mLwc"
     };
     private int indexVideo = 0;
-    YouTubePlayerFragment youTubePlayerFragment;
+    YouTubeFragment youTubeFragment;
+    YouTubePlayerView youTubeView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_youtube_with_fragment);
-
-        youTubePlayerFragment =
-                (YouTubePlayerFragment) getFragmentManager().findFragmentById(R.id.youtube_fragment);
-        youTubePlayerFragment.initialize(YouTubeFailureRecoveryActivity.YOUTUBE_KEY, this);
+        youTubeFragment = new YouTubeFragment();
+        getFragmentManager().beginTransaction()
+                .add(R.id.fragment_box,youTubeFragment).commit();
     }
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
+        youTubeView = (YouTubePlayerView) findViewById(R.id.youtube_view);
+        youTubeView.initialize(YOUTUBE_KEY, this);
         displayWidth = ((WindowManager)this.getSystemService(Context.WINDOW_SERVICE))
                 .getDefaultDisplay().getWidth();
 
@@ -60,8 +63,7 @@ public class YoutubeActivityWithFragment extends YouTubeFailureRecoveryActivity 
 
     @Override
     protected YouTubePlayer.Provider getYouTubePlayerProvider() {
-        return (YouTubePlayerFragment) getFragmentManager().findFragmentById(R.id.youtube_fragment);
-    }
+        return (YouTubePlayerView) findViewById(R.id.youtube_view);    }
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent event){
@@ -69,7 +71,7 @@ public class YoutubeActivityWithFragment extends YouTubeFailureRecoveryActivity 
 
         float x = event.getX();
         float y = event.getY();
-//        if(!inRegion(event.getRawX(), event.getRawY(), youTubeView)) return false;
+        if(!inRegion(event.getRawX(), event.getRawY(), youTubeView)) return false;
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 break;
@@ -79,10 +81,10 @@ public class YoutubeActivityWithFragment extends YouTubeFailureRecoveryActivity 
             case MotionEvent.ACTION_CANCEL:
                 if(x < displayWidth/2){
                     Toast.makeText(this,"dislike",Toast.LENGTH_SHORT).show();
-                    new ChangeVideo().execute(youTubePlayerFragment);
+                    new ChangeVideo().execute(youTubeView);
                 }else if (x > (displayWidth)/2){
                     Toast.makeText(this,"like",Toast.LENGTH_SHORT).show();
-                    new ChangeVideo().execute(youTubePlayerFragment);
+                    new ChangeVideo().execute(youTubeView);
                 }else{
                     //Not changed
                 }
@@ -90,22 +92,21 @@ public class YoutubeActivityWithFragment extends YouTubeFailureRecoveryActivity 
         }
         return false;
     }
-//    private boolean inRegion(float x, float y, YouTubePlayerFragment f) {
-//        int [] mCoordBuffer = {0,0,0,0};
-//        f.getLocationOnScreen(mCoordBuffer);
-//        f.
-//        return mCoordBuffer[0] + v.getWidth() > x &&    // right edge
-//                mCoordBuffer[1] + v.getHeight() > y &&   // bottom edge
-//                mCoordBuffer[0] < x &&                   // left edge
-//                mCoordBuffer[1] < y;                     // top edge
-//    }
+    private boolean inRegion(float x, float y, View v) {
+        int [] mCoordBuffer = {0,0,0,0};
+        v.getLocationOnScreen(mCoordBuffer);
+        return mCoordBuffer[0] + v.getWidth() > x &&    // right edge
+                mCoordBuffer[1] + v.getHeight() > y &&   // bottom edge
+                mCoordBuffer[0] < x &&                   // left edge
+                mCoordBuffer[1] < y;                     // top edge
+    }
 
 
-    private class ChangeVideo extends AsyncTask<YouTubePlayerFragment,Void,Void> {
-        YouTubePlayerFragment youTubePlayerFragment;
+    private class ChangeVideo extends AsyncTask<YouTubePlayerView,Void,Void> {
+        YouTubePlayerView view;
         @Override
-        protected Void doInBackground(YouTubePlayerFragment... fragments){
-            this.youTubePlayerFragment = fragments[0];
+        protected Void doInBackground(YouTubePlayerView... views){
+            this.view = views[0];
             try {
                 TimeUnit.SECONDS.sleep(2);
             }catch (Exception e){
@@ -116,10 +117,17 @@ public class YoutubeActivityWithFragment extends YouTubeFailureRecoveryActivity 
         @Override
         protected void onPostExecute(Void result){
             super.onPostExecute(result);
+            view.destroyDrawingCache();
+            ((ViewGroup)view.getParent()).removeView(view);
+
             FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-            youTubePlayerFragment = new YouTubeFragment();
-            fragmentTransaction.replace(R.id.fragment_box,youTubePlayerFragment);
-            youTubePlayerFragment.initialize(YouTubeFailureRecoveryActivity.YOUTUBE_KEY, self);
+            fragmentTransaction.detach(youTubeFragment);
+            youTubeFragment = new YouTubeFragment();
+            fragmentTransaction.add(R.id.fragment_box,youTubeFragment).commit();
+            
+
+            youTubeView = (YouTubePlayerView) view.findViewById(R.id.youtube_view);
+            youTubeView.initialize(YOUTUBE_KEY, self);
         }
 
     }

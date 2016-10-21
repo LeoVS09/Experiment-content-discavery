@@ -20,7 +20,7 @@ public class SwipeYoutubeHorizontalLayout extends SwipeHorizontalLayout {
 
     public SwipeYoutubeHorizontalLayout(Context context, AttributeSet attributeSet, int defStyle){
         super(context,attributeSet,defStyle);
-        viewId = R.id.youtube_fragment;
+        viewId = R.id.youtube_view;
         verticalDragRange = 0;
         horizontalDragRange = -displayWidth;
     }

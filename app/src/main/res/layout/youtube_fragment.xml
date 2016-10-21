@@ -12,14 +12,10 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".youtube_fragment.YoutubeActivityWithFragment"
     tools:showIn="@layout/activity_youtube_with_fragment">
-<fragment android:name="com.google.android.youtube.player.YouTubePlayerFragment"
-    android:id="@+id/youtube_fragment"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_centerVertical="true"
-    android:layout_alignParentLeft="true"
-    android:layout_alignParentStart="true"
-    xmlns:android="http://schemas.android.com/apk/res/android">
-</fragment>
+    <com.google.android.youtube.player.YouTubePlayerView
+        android:id="@+id/youtube_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
 
 </cd.ex.leovs09.experiment_content_discavery.youtube_fragment.SwipeYoutubeHorizontalLayout>
