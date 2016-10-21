@@ -23,6 +23,7 @@ import cd.ex.leovs09.experiment_content_discavery.YouTubeFailureRecoveryActivity
 public class YoutubeActivityWithFragment extends YouTubeFailureRecoveryActivity {
     private int displayWidth;
     private YoutubeActivityWithFragment self = this;
+    private YouTubePlayer player;
     private String[] videoUrls = {
             "nCgQDjiotG0",
             "wKJ9KzGQq0w",
@@ -30,15 +31,11 @@ public class YoutubeActivityWithFragment extends YouTubeFailureRecoveryActivity 
             "Q0oIoR9mLwc"
     };
     private int indexVideo = 0;
-    YouTubeFragment youTubeFragment;
     YouTubePlayerView youTubeView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_youtube_with_fragment);
-        youTubeFragment = new YouTubeFragment();
-        getFragmentManager().beginTransaction()
-                .add(R.id.fragment_box,youTubeFragment).commit();
     }
 
     @Override
@@ -54,6 +51,7 @@ public class YoutubeActivityWithFragment extends YouTubeFailureRecoveryActivity 
     @Override
     public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer player,
                                         boolean wasRestored) {
+        this.player = player;
         if (!wasRestored) {
             player.loadVideo(videoUrls[indexVideo]);
             player.play();
@@ -117,17 +115,10 @@ public class YoutubeActivityWithFragment extends YouTubeFailureRecoveryActivity 
         @Override
         protected void onPostExecute(Void result){
             super.onPostExecute(result);
-            view.destroyDrawingCache();
-            ((ViewGroup)view.getParent()).removeView(view);
-
-            FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-            fragmentTransaction.detach(youTubeFragment);
-            youTubeFragment = new YouTubeFragment();
-            fragmentTransaction.add(R.id.fragment_box,youTubeFragment).commit();
-            
-
-            youTubeView = (YouTubePlayerView) view.findViewById(R.id.youtube_view);
-            youTubeView.initialize(YOUTUBE_KEY, self);
+            youTubeView.setLeft(0);
+            player.loadVideo(videoUrls[indexVideo]);
+            player.play();
+            indexVideo = (indexVideo < videoUrls.length - 1) ? indexVideo + 1 : 0;
         }
 
     }
