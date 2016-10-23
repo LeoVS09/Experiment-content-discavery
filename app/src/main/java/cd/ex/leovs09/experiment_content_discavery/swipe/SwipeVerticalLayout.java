@@ -35,7 +35,7 @@ public class SwipeVerticalLayout extends SwipeLayout {
         if(yvel < -displayHeight/3)
             newY = Math.max((int)yvel,50);
         else if(yvel > displayHeight/3)
-            newY = Math.min((int)yvel,displayHeight/2 + 100);
+            newY = Math.min((int)yvel,2*displayHeight/3 - 200);
         int[] result = {startX,newY};
         Log.i("settleReleasedView","result: "+ result[0] + " " + result[1]);
         return result;

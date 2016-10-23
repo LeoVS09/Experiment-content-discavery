@@ -11,4 +11,5 @@
     <string name="title_activity_youtube_with_fragment">YoutubeWithFragment</string>
     <string name="error_player">There was an error initializing the YouTubePlayer (%1$s)</string>
     <string name="title_activity_swipe_you_tube_vertical">SwipeYouTubeVerticalActivity</string>
+    <string name="title_youtube">Смотри новьё</string>
 </resources>

@@ -1,13 +1,15 @@
 package cd.ex.leovs09.experiment_content_discavery.youtube_swipe.vertical;
 
 import android.content.Context;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.animation.AlphaAnimation;
-import android.widget.Toolbar;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -16,7 +18,9 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Toast;
 
+import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
+import com.google.android.youtube.player.YouTubePlayerSupportFragment;
 import com.google.android.youtube.player.YouTubePlayerView;
 
 import java.util.concurrent.TimeUnit;
@@ -24,7 +28,7 @@ import java.util.concurrent.TimeUnit;
 import cd.ex.leovs09.experiment_content_discavery.R;
 import cd.ex.leovs09.experiment_content_discavery.YouTubeFailureRecoveryActivity;
 
-public class SwipeYouTubeVerticalActivity extends YouTubeFailureRecoveryActivity {
+public class SwipeYouTubeVerticalActivity extends AppCompatActivity {
     private int viewTop;
     private int displayHeight;
     private SwipeYouTubeVerticalActivity self = this;
@@ -39,19 +43,56 @@ public class SwipeYouTubeVerticalActivity extends YouTubeFailureRecoveryActivity
     };
     private int indexVideo = 0;
     YouTubePlayerView youTubeView;
+    YouTubePlayerSupportFragment youTubePlayerFragment;
+    public static String YOUTUBE_KEY = "AIzaSyBP7NieGXZ5BeejXLxdYaKMFHFCDdQkqm4";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_swipe_vertical_youtube);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setActionBar(toolbar);
+        setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
+        final Drawable upArrow = getResources().getDrawable(R.drawable.abc_ic_ab_back_material);
+        upArrow.setColorFilter(getResources().getColor(R.color.colorAccent), PorterDuff.Mode.SRC_ATOP);
+        getSupportActionBar().setHomeAsUpIndicator(upArrow);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setTitle(R.string.title_youtube);
     }
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        youTubeView = (YouTubePlayerView) findViewById(R.id.youtube_view);
-        youTubeView.initialize(YOUTUBE_KEY, this);
+
+        YouTubePlayerSupportFragment youTubePlayerFragment =
+                (YouTubePlayerSupportFragment) getSupportFragmentManager()
+                        .findFragmentById(R.id.youtube_fragment);
+        youTubePlayerFragment.initialize(YOUTUBE_KEY, new YouTubePlayer.OnInitializedListener() {
+            @Override
+            public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer player,
+                                                boolean wasRestored) {
+                self.player = player;
+                if (!wasRestored) {
+                    player.setPlayerStyle(YouTubePlayer.PlayerStyle.CHROMELESS);
+                    player.loadVideo(videoUrls[indexVideo]);
+                    player.play();
+                    indexVideo = (indexVideo < videoUrls.length - 1) ? indexVideo + 1 : 0;
+                }
+
+            }
+
+            @Override
+            public void onInitializationFailure(YouTubePlayer.Provider provider,
+                                                YouTubeInitializationResult errorReason) {
+                if (errorReason.isUserRecoverableError()) {
+                    errorReason.getErrorDialog(self, 1).show();
+                } else {
+                    String errorMessage = String.format(getString(R.string.error_player), errorReason.toString());
+                    Toast.makeText(self, errorMessage, Toast.LENGTH_LONG).show();
+                }
+            }
+
+
+        });
+        youTubeView = (YouTubePlayerView) findViewById(R.id.youtube_fragment);
         youTubeView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -65,24 +106,7 @@ public class SwipeYouTubeVerticalActivity extends YouTubeFailureRecoveryActivity
 
     }
 
-    @Override
-    public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer player,
-                                        boolean wasRestored) {
-        this.player = player;
-        if (!wasRestored) {
-            player.setPlayerStyle(YouTubePlayer.PlayerStyle.CHROMELESS);
-            player.loadVideo(videoUrls[indexVideo]);
-            player.play();
-            indexVideo = (indexVideo < videoUrls.length - 1) ? indexVideo + 1 : 0;
-        }
 
-
-
-    }
-
-    @Override
-    protected YouTubePlayer.Provider getYouTubePlayerProvider() {
-        return (YouTubePlayerView) findViewById(R.id.youtube_view);    }
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent event){
