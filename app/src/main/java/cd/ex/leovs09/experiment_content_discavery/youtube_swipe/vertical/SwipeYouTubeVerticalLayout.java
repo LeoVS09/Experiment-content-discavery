@@ -20,6 +20,6 @@ public class SwipeYouTubeVerticalLayout extends SwipeVerticalLayout {
 
     public SwipeYouTubeVerticalLayout(Context context, AttributeSet attributeSet, int defStyle){
         super(context,attributeSet,defStyle);
-        viewId = R.id.youtube_view;
+        viewId = R.id.youtube_fragment;
     }
 }

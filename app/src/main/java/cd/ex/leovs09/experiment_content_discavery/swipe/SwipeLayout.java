@@ -5,6 +5,7 @@ import android.support.v4.view.MotionEventCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.ViewDragHelper;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -52,6 +53,8 @@ public class SwipeLayout extends RelativeLayout {
     }
     @Override
     public boolean onInterceptTouchEvent(MotionEvent event) {
+        super.onInterceptTouchEvent(event);
+//        Log.i("onInterceptTouchEvent",event.toString());
         int action = MotionEventCompat.getActionMasked(event);
         if(action == MotionEvent.ACTION_CANCEL || action == MotionEvent.ACTION_UP){
             dragHelper.cancel();
@@ -60,9 +63,23 @@ public class SwipeLayout extends RelativeLayout {
         dragHelper.shouldInterceptTouchEvent(event);
         return true;
     }
-
+    boolean moved = false;
+    float lastY;
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+        super.onTouchEvent(event);
+
+//        Log.i("onTouchEvent",event.toString());
+        int action = MotionEventCompat.getActionMasked(event);
+        if(action == MotionEvent.ACTION_MOVE && lastY != event.getY()) moved = true;
+        lastY = event.getY();
+        if(action == MotionEvent.ACTION_CANCEL || action == MotionEvent.ACTION_UP) {
+            if(!moved) {
+                dragHelper.cancel();
+                return false;
+            }
+            moved = false;
+        }
         dragHelper.processTouchEvent(event);
         return true;
     }
