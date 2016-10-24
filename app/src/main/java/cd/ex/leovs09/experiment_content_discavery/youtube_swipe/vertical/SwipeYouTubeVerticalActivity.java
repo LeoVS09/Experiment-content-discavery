@@ -39,7 +39,14 @@ public class SwipeYouTubeVerticalActivity extends AppCompatActivity {
             "nCgQDjiotG0",
             "wKJ9KzGQq0w",
             "txBfhpm1jI0",
-            "Q0oIoR9mLwc"
+            "Q0oIoR9mLwc",
+            "9c6W4CCU9M4",
+            "avP5d16wEp0",
+            "irH3OSOskcE",
+            "cdgQpa1pUUE",
+            "MSee-dADFlA",
+            "wL-axMRQky8",
+            "0h-IENieEFI"
     };
     private int indexVideo = 0;
     YouTubePlayerView youTubeView;
