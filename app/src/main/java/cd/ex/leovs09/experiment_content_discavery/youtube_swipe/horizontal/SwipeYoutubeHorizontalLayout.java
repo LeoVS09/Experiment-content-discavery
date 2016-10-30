@@ -20,7 +20,7 @@ public class SwipeYouTubeHorizontalLayout extends SwipeHorizontalLayout {
 
     public SwipeYouTubeHorizontalLayout(Context context, AttributeSet attributeSet, int defStyle){
         super(context,attributeSet,defStyle);
-        viewId = R.id.youtube_view;
+        viewId = R.id.youtube_fragment;
     }
 
 }

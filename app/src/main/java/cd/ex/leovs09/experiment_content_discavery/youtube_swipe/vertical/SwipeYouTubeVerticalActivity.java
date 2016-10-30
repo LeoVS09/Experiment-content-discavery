@@ -27,31 +27,9 @@ import java.util.concurrent.TimeUnit;
 
 import cd.ex.leovs09.experiment_content_discavery.R;
 import cd.ex.leovs09.experiment_content_discavery.YouTubeFailureRecoveryActivity;
+import cd.ex.leovs09.experiment_content_discavery.youtube_swipe.SwipeYouTubeActivity;
 
-public class SwipeYouTubeVerticalActivity extends AppCompatActivity {
-    private int viewTop;
-    private int displayHeight;
-    private SwipeYouTubeVerticalActivity self = this;
-    private YouTubePlayer player;
-    private float startY = 0;
-    private boolean moved = false;
-    private String[] videoUrls = {
-            "nCgQDjiotG0",
-            "wKJ9KzGQq0w",
-            "txBfhpm1jI0",
-            "Q0oIoR9mLwc",
-            "9c6W4CCU9M4",
-            "avP5d16wEp0",
-            "irH3OSOskcE",
-            "cdgQpa1pUUE",
-            "MSee-dADFlA",
-            "wL-axMRQky8",
-            "0h-IENieEFI"
-    };
-    private int indexVideo = 0;
-    YouTubePlayerView youTubeView;
-    YouTubePlayerSupportFragment youTubePlayerFragment;
-    public static String YOUTUBE_KEY = "AIzaSyBP7NieGXZ5BeejXLxdYaKMFHFCDdQkqm4";
+public class SwipeYouTubeVerticalActivity extends SwipeYouTubeActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,56 +42,6 @@ public class SwipeYouTubeVerticalActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setTitle(R.string.title_youtube);
     }
-
-    @Override
-    protected void onPostCreate(Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-
-        YouTubePlayerSupportFragment youTubePlayerFragment =
-                (YouTubePlayerSupportFragment) getSupportFragmentManager()
-                        .findFragmentById(R.id.youtube_fragment);
-        youTubePlayerFragment.initialize(YOUTUBE_KEY, new YouTubePlayer.OnInitializedListener() {
-            @Override
-            public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer player,
-                                                boolean wasRestored) {
-                self.player = player;
-                if (!wasRestored) {
-                    player.setPlayerStyle(YouTubePlayer.PlayerStyle.CHROMELESS);
-                    player.loadVideo(videoUrls[indexVideo]);
-                    player.play();
-                    indexVideo = (indexVideo < videoUrls.length - 1) ? indexVideo + 1 : 0;
-                }
-
-            }
-
-            @Override
-            public void onInitializationFailure(YouTubePlayer.Provider provider,
-                                                YouTubeInitializationResult errorReason) {
-                if (errorReason.isUserRecoverableError()) {
-                    errorReason.getErrorDialog(self, 1).show();
-                } else {
-                    String errorMessage = String.format(getString(R.string.error_player), errorReason.toString());
-                    Toast.makeText(self, errorMessage, Toast.LENGTH_LONG).show();
-                }
-            }
-
-
-        });
-        youTubeView = (YouTubePlayerView) findViewById(R.id.youtube_fragment);
-        youTubeView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(player.isPlaying()) player.pause();
-                else player.play();
-            }
-        });
-        viewTop =  youTubeView.getTop();
-        displayHeight = ((WindowManager)this.getSystemService(Context.WINDOW_SERVICE))
-                .getDefaultDisplay().getHeight();
-
-    }
-
-
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent event){
@@ -132,7 +60,6 @@ public class SwipeYouTubeVerticalActivity extends AppCompatActivity {
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:
                 Animation animation = AnimationUtils.loadAnimation(this,R.anim.leaving);
-//                Log.i("dispatchTouchEvent","y: " + y + " height: " + displayHeight);
                 if(moved) {
                     if (startY - y > 0) {
                         Toast.makeText(this, "dislike", Toast.LENGTH_SHORT).show();
@@ -152,44 +79,11 @@ public class SwipeYouTubeVerticalActivity extends AppCompatActivity {
         }
         return false;
     }
-    private boolean inRegion(float x, float y, View v) {
-        int [] mCoordBuffer = {0,0,0,0};
-        v.getLocationOnScreen(mCoordBuffer);
-        return mCoordBuffer[0] + v.getWidth() > x &&    // right edge
-                mCoordBuffer[1] + v.getHeight() > y &&   // bottom edge
-                mCoordBuffer[0] < x &&                   // left edge
-                mCoordBuffer[1] < y;                     // top edge
+
+    protected void preLeave(){
+        Animation animation = AnimationUtils.loadAnimation(self,R.anim.leaving_youtube_view);
+        youTubeView.startAnimation(animation);
     }
 
-
-    private class ChangeVideo extends AsyncTask<YouTubePlayerView,Void,Void> {
-        YouTubePlayerView view;
-        @Override
-        protected Void doInBackground(YouTubePlayerView... views){
-            this.view = views[0];
-            try {
-                TimeUnit.MILLISECONDS.sleep(100);
-                publishProgress();
-                TimeUnit.MILLISECONDS.sleep(500);
-            }catch (Exception e){
-                Log.e("ChangeVideo",e.toString(),e);
-            }
-            return null;
-        }
-        @Override
-        protected void onProgressUpdate(Void... values){
-            Animation animation = AnimationUtils.loadAnimation(self,R.anim.leaving_youtube_view);
-            youTubeView.startAnimation(animation);
-        }
-        @Override
-        protected void onPostExecute(Void result){
-            super.onPostExecute(result);
-            youTubeView.setTop(viewTop);
-            player.loadVideo(videoUrls[indexVideo]);
-            player.play();
-            indexVideo = (indexVideo < videoUrls.length - 1) ? indexVideo + 1 : 0;
-        }
-
-    }
 
 }

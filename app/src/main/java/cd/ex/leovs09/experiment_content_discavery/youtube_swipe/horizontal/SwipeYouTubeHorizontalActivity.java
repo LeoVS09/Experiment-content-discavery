@@ -1,12 +1,17 @@
 package cd.ex.leovs09.experiment_content_discavery.youtube_swipe.horizontal;
 
 import android.content.Context;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Toast;
 
 import com.google.android.youtube.player.YouTubePlayer;
@@ -16,56 +21,23 @@ import java.util.concurrent.TimeUnit;
 
 import cd.ex.leovs09.experiment_content_discavery.R;
 import cd.ex.leovs09.experiment_content_discavery.YouTubeFailureRecoveryActivity;
+import cd.ex.leovs09.experiment_content_discavery.youtube_swipe.SwipeYouTubeActivity;
 
-public class SwipeYouTubeHorizontalActivity extends YouTubeFailureRecoveryActivity {
-    private int displayWidth;
-    private SwipeYouTubeHorizontalActivity self = this;
-    private YouTubePlayer player;
-    private String[] videoUrls = {
-            "nCgQDjiotG0",
-            "wKJ9KzGQq0w",
-            "txBfhpm1jI0",
-            "Q0oIoR9mLwc",
-            "9c6W4CCU9M4",
-            "avP5d16wEp0",
-            "irH3OSOskcE",
-            "cdgQpa1pUUE",
-            "MSee-dADFlA",
-            "wL-axMRQky8",
-            "0h-IENieEFI"
-    };
-    private int indexVideo = 0;
-    YouTubePlayerView youTubeView;
+public class SwipeYouTubeHorizontalActivity extends SwipeYouTubeActivity {
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_swipe_horizontal_youtube);
+        setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
+        final Drawable upArrow = getResources().getDrawable(R.drawable.abc_ic_ab_back_material);
+        upArrow.setColorFilter(getResources().getColor(R.color.colorAccent), PorterDuff.Mode.SRC_ATOP);
+        getSupportActionBar().setHomeAsUpIndicator(upArrow);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setTitle(R.string.title_youtube);
     }
 
-    @Override
-    protected void onPostCreate(Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-        youTubeView = (YouTubePlayerView) findViewById(R.id.youtube_view);
-        youTubeView.initialize(YOUTUBE_KEY, this);
-        displayWidth = ((WindowManager)this.getSystemService(Context.WINDOW_SERVICE))
-                .getDefaultDisplay().getWidth();
-
-    }
-
-    @Override
-    public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer player,
-                                        boolean wasRestored) {
-        this.player = player;
-        if (!wasRestored) {
-            player.loadVideo(videoUrls[indexVideo]);
-            player.play();
-            indexVideo = (indexVideo < videoUrls.length - 1) ? indexVideo + 1 : 0;
-        }
-    }
-
-    @Override
-    protected YouTubePlayer.Provider getYouTubePlayerProvider() {
-        return (YouTubePlayerView) findViewById(R.id.youtube_view);    }
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent event){
@@ -94,36 +66,6 @@ public class SwipeYouTubeHorizontalActivity extends YouTubeFailureRecoveryActivi
         }
         return false;
     }
-    private boolean inRegion(float x, float y, View v) {
-        int [] mCoordBuffer = {0,0,0,0};
-        v.getLocationOnScreen(mCoordBuffer);
-        return mCoordBuffer[0] + v.getWidth() > x &&    // right edge
-                mCoordBuffer[1] + v.getHeight() > y &&   // bottom edge
-                mCoordBuffer[0] < x &&                   // left edge
-                mCoordBuffer[1] < y;                     // top edge
-    }
+    protected void preLeave(){}
 
-
-    private class ChangeVideo extends AsyncTask<YouTubePlayerView,Void,Void> {
-        YouTubePlayerView view;
-        @Override
-        protected Void doInBackground(YouTubePlayerView... views){
-            this.view = views[0];
-            try {
-                TimeUnit.SECONDS.sleep(2);
-            }catch (Exception e){
-                Log.e("ChangeVideo",e.toString(),e);
-            }
-            return null;
-        }
-        @Override
-        protected void onPostExecute(Void result){
-            super.onPostExecute(result);
-            youTubeView.setLeft(0);
-            player.loadVideo(videoUrls[indexVideo]);
-            player.play();
-            indexVideo = (indexVideo < videoUrls.length - 1) ? indexVideo + 1 : 0;
-        }
-
-    }
 }

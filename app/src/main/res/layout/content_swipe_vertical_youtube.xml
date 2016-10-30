@@ -9,7 +9,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="cd.ex.leovs09.experiment_content_discavery.youtube_swipe.vertical.SwipeYouTubeVerticalActivity"
+    tools:context=".youtube_swipe.vertical.SwipeYouTubeVerticalActivity"
     tools:showIn="@layout/activity_swipe_vertical_youtube">
     <cd.ex.leovs09.experiment_content_discavery.youtube_swipe.vertical.SwipeYouTubeVerticalLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
