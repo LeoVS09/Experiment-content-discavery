@@ -16,7 +16,7 @@ import cd.ex.leovs09.experiment_content_discavery.R;
 /**
  * Created by LeoVS09 on 17.10.2016.
  */
-public class SwipeLayout extends RelativeLayout {
+public abstract class SwipeLayout extends RelativeLayout {
     protected ViewDragHelper dragHelper;
     protected View dragView;
     protected int displayHeight;
@@ -65,14 +65,17 @@ public class SwipeLayout extends RelativeLayout {
     }
     boolean moved = false;
     float lastY;
+    float lastX;
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         super.onTouchEvent(event);
 
 //        Log.i("onTouchEvent",event.toString());
         int action = MotionEventCompat.getActionMasked(event);
-        if(action == MotionEvent.ACTION_MOVE && lastY != event.getY()) moved = true;
+        if(action == MotionEvent.ACTION_MOVE && lastY != event.getY() && lastX != event.getX())
+            moved = true;
         lastY = event.getY();
+        lastX = event.getX();
         if(action == MotionEvent.ACTION_CANCEL || action == MotionEvent.ACTION_UP) {
             if(!moved) {
                 dragHelper.cancel();
@@ -86,11 +89,7 @@ public class SwipeLayout extends RelativeLayout {
     /*
         extend realised method for set end of move
      */
-    protected int[] settleReleasedView(View releasedChild, float xvel, float yvel) {
-
-        int[] result = {0,0};
-        return result;
-    }
+    protected abstract int[] settleReleasedView(View releasedChild, float xvel, float yvel);
     /*
         extend vertical method for set vertical on move
      */
@@ -103,6 +102,7 @@ public class SwipeLayout extends RelativeLayout {
     protected int newHorizontal(View child, int left, int dx){
         return 0;
     }
+
     protected class SwipeHelperCallback extends ViewDragHelper.Callback {
 
         @Override
